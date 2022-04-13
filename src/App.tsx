@@ -78,9 +78,10 @@ function App() {
 
     //test
 
-    
+    console.log(1)
     const todolistComponents = todolists.map( tl => {
         let tasksForTodolist = tasks[tl.id];
+        console.log(tasksForTodolist)
 
     if (tl.filter === "active") {
         tasksForTodolist = tasks[tl.id].filter(t => !t.isDone);
@@ -88,7 +89,7 @@ function App() {
     if (tl.filter === "completed") {
         tasksForTodolist = tasks[tl.id].filter(t => t.isDone);
     }
-        <Todolist     
+        return <Todolist     
                       key={tl.id}
                       todolistId={tl.id}
                       title= {tl.title}
