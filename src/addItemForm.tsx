@@ -1,3 +1,5 @@
+import { IconButton, TextField } from "@mui/material";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import React, { useState , KeyboardEvent, ChangeEvent} from "react";
 type addItemFormPropsType = {
     addItem:(title:string) => void
@@ -25,14 +27,23 @@ export const AddItemForm = (props:addItemFormPropsType) => {
         setTitle(e.currentTarget.value)
     }
     return (
-        <div>
-            <div>
-                <input value={title}
+        <div style={{display: "flex", alignItems:"center"}}>
+            <div >
+                <TextField 
+                    variant={"outlined"}
+                    label={"Title"}
+                    size={"small"}
+                    value={title}
                     onChange={onChangeHandler}
                     onKeyPress={onKeyPressHandler}
                     className={error ? "error" : ""}
                 />
-                <button onClick={addItem}>+</button>
+                <IconButton 
+                size={"medium"}
+                color={"primary"}
+                onClick={addItem}>
+                    <AddCircleIcon fontSize={"large"} />
+                </IconButton>
                 {error && <div className="error-message">{error}</div>}
             </div>
         </div>
