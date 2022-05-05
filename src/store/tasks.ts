@@ -23,3 +23,5 @@ export const salaryReduser =(action: ActionType ) => {
             return action.salary    
     }
 }
+
+
