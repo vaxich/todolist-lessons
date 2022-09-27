@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import {todolistApi} from "../api/todolist-api";
 
 export default {
     title: 'API'
@@ -9,6 +10,10 @@ export const GetTodolists = () => {
     useEffect(() => {
         // здесь мы будем делать запрос и ответ закидывать в стейт.
         // который в виде строки будем отображать в div-ке
+        todolistApi.getTodos()
+        .then((res) => {
+            setState(res.data)
+        })
 
     }, [])
 
@@ -17,13 +22,24 @@ export const GetTodolists = () => {
 export const CreateTodolist = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
+        const title = 'react'
+
+        todolistApi.createTodo(title)
+        .then((res) => {
+            setState(res.data)
+        })
     }, [])
 
     return <div> {JSON.stringify(state)}</div>
 }
 export const DeleteTodolist = () => {
     const [state, setState] = useState<any>(null)
+    let todolistId = "25246ea9-e607-4a71-a34d-874cd4e04e3c"
     useEffect(() => {
+        todolistApi.deleteTodo(todolistId)
+        .then( (res)=> {
+            setState(res.data)
+        })
     }, [])
 
     return <div> {JSON.stringify(state)}</div>
@@ -31,6 +47,12 @@ export const DeleteTodolist = () => {
 export const UpdateTodolistTitle = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
+        let todolistId = "67bfa919-f71d-4452-ab22-237624379d9e"
+        let title = "444"
+        todolistApi.updateTodoTitle(todolistId, title)
+        .then( (res)=> {
+            setState(res.data)
+        })
     }, [])
 
     return <div> {JSON.stringify(state)}</div>
