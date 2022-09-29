@@ -1,4 +1,21 @@
 import axios from "axios";
+import {TaskType} from "../Todolist";
+import {TaskStateType} from "../AppWithRedux";
+
+export type UpdateTaskModelType = {
+    title:string,
+    descroption: string,
+    status: boolean,
+    priority: number,
+    startDate:string,
+    deadLine:string
+}
+type GetTasksResponse = {
+    error:string | null,
+    totalCount: number,
+    items: TaskType[]
+}
+
 
 let instanse = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.1",
@@ -10,24 +27,37 @@ let instanse = axios.create({
 
 
 export const todolistApi = {
-    getTodos() {
-        return instanse.get<Array<TodoType>>('todo-lists', )
+    getTodolists() {
+        return instanse.get<Array<TaskStateType[]>>('todo-lists', )
     },
-    createTodo(title:string) {
+    createTodolist(title:string) {
         return instanse.post<BaseResponseType<{item:TodoType}>>('todo-lists', {title} )
 
     },
-    deleteTodo(todolistId:string) {
+    deleteTodolist(todolistId:string) {
         return instanse.delete<BaseResponseType>(`todo-lists/${todolistId}`  )
 
     },
-    updateTodoTitle(todolistId:string, title:string) {
+    updateTodolistTitle(todolistId:string, title:string) {
         return instanse.put<BaseResponseType>(`/todo-lists/${todolistId}`, {title  } )
 
+    },
+    getTasks(todolistId:string) {
+        return instanse.get<GetTasksResponse>(`/todo-lists/${todolistId}/tasks` )
+
+    },
+    deleteTask(todolistId:string, taskId:string){
+        return instanse.delete<BaseResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}` )
+    },
+    createTask(todolistId:string){
+        return instanse.post<BaseResponseType>(`/todo-lists/${todolistId}/tasks` )
+    },
+    updateTask(todolistId:string, taskId:string, model:UpdateTaskModelType){
+        return instanse.put<BaseResponseType<TaskType>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model )
     }
 }
 
-type TodoType = {
+export type TodoType = {
     id: string,
     title: string,
     addedDate: string,

@@ -1,11 +1,13 @@
 import { Button, ButtonGroup, Checkbox, IconButton, List, ListItem, Typography } from '@mui/material';
-import React, { ChangeEvent, KeyboardEvent, useCallback, useState } from 'react';
+import React, {ChangeEvent, KeyboardEvent, useCallback, useEffect, useState} from 'react';
 import { AddItemForm } from './addItemForm';
 import { FilterValuesType } from './App';
 import { EditableSpan } from './editableSpan';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Task } from './Task';
+import {fetchTasksTC} from "./store/tasks-reduser";
+import {useDispatch} from "react-redux";
 
 
 
@@ -30,8 +32,11 @@ type PropsType = {
 }
 
 export const Todolist = React.memo((props: PropsType) => {
+    const dispatch = useDispatch()
 
-    console.log("todolist")
+    useEffect( ()=> {
+        dispatch(fetchTasksTC(props.todolistId));
+    }, [])
 
     const addTask = useCallback((title: string) => {
         props.addTask(title, props.todolistId);
