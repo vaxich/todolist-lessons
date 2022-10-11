@@ -3,6 +3,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import React, { useState , KeyboardEvent, ChangeEvent} from "react";
 type addItemFormPropsType = {
     addItem:(title:string) => void
+    entityStatus?:ResponseType
 }
 
 export const AddItemForm = React.memo ( (props:addItemFormPropsType) => {
@@ -37,11 +38,14 @@ export const AddItemForm = React.memo ( (props:addItemFormPropsType) => {
                     onChange={onChangeHandler}
                     onKeyPress={onKeyPressHandler}
                     className={error ? "error" : ""}
+                    disabled={props.entityStatus === 'loading'}
                 />
                 <IconButton 
                 size={"medium"}
                 color={"primary"}
-                onClick={addItem}>
+                onClick={addItem}
+                disabled={props.entityStatus === 'loading'}
+                >
                     <AddCircleIcon fontSize={"large"} />
                 </IconButton>
                 {error && <div className="error-message">{error}</div>}

@@ -28,10 +28,10 @@ let instanse = axios.create({
 
 export const todolistApi = {
     getTodolists() {
-        return instanse.get<Array<TaskStateType[]>>('todo-lists', )
+        return instanse.get<Array<TaskStateType[]>>('todo-lists' )
     },
     createTodolist(title:string) {
-        return instanse.post<BaseResponseType<{item:TodoType}>>('todo-lists', {title} )
+        return instanse.post<BaseResponseType<{item:TodolistType}>>('todo-lists', {title} )
 
     },
     deleteTodolist(todolistId:string) {
@@ -49,21 +49,21 @@ export const todolistApi = {
     deleteTask(todolistId:string, taskId:string){
         return instanse.delete<BaseResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}` )
     },
-    createTask(todolistId:string){
-        return instanse.post<BaseResponseType>(`/todo-lists/${todolistId}/tasks` )
+    createTask(todolistId:string, taskId:string){
+        return instanse.post<BaseResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}` )
     },
     updateTask(todolistId:string, taskId:string, model:UpdateTaskModelType){
         return instanse.put<BaseResponseType<TaskType>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model )
     }
 }
 
-export type TodoType = {
+export type TodolistType = {
     id: string,
     title: string,
     addedDate: string,
     order: number
 }
-type BaseResponseType<T = {} > = {
+export type BaseResponseType<T = {} > = {
     resultCode: number,
     messages: string[],
     fieldsErrors: string[],

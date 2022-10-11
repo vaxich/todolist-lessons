@@ -2,11 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-import * as serviceWorker from './serviceWorker';
 import { ThemeProvider } from '@mui/material/styles';
 import { createTheme } from '@mui/material/styles';
 import { teal, yellow } from '@mui/material/colors';
-import AppWithReduser from './AppWithReduser';
+
 import AppWithRedux from './AppWithRedux';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
@@ -31,4 +30,4 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+//serviceWorker.unregister();

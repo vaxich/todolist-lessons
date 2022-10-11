@@ -8,6 +8,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Task } from './Task';
 import {fetchTasksTC} from "./store/tasks-reduser";
 import {useDispatch} from "react-redux";
+import {RequestStatusType} from "./store/app-reduser";
 
 
 
@@ -22,6 +23,7 @@ type PropsType = {
     title: string
     tasks: Array<TaskType>
     filter: FilterValuesType
+    entityStatus: RequestStatusType
     removeTask: (taskId: string, id: string) => void
     changeFilter: (id: string, value: FilterValuesType) => void
     addTask: (title: string, id: string) => void
@@ -80,11 +82,11 @@ export const Todolist = React.memo((props: PropsType) => {
         <div>
             <Typography align={"center"} variant={"h3"}>
                 <EditableSpan title={props.title} changeTitle={changeTodolistTitle} />
-                <IconButton onClick={() => removeTodolist(props.todolistId)}>
+                <IconButton onClick={() => removeTodolist(props.todolistId)} disabled={props.entityStatus = 'loading'}>
                     <DeleteForeverIcon />
                 </IconButton>
             </Typography>
-            <AddItemForm addItem={addTask} />
+            <AddItemForm addItem={addTask} entityStatus={props.entityStatus}/>
 
             <List>
                 {
