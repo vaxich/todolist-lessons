@@ -1,9 +1,11 @@
 import { IconButton, TextField } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import React, { useState , KeyboardEvent, ChangeEvent} from "react";
+import {RequestStatusType} from "./store/app-reduser";
+
 type addItemFormPropsType = {
     addItem:(title:string) => void
-    entityStatus?:ResponseType
+    entityStatus?:RequestStatusType
 }
 
 export const AddItemForm = React.memo ( (props:addItemFormPropsType) => {

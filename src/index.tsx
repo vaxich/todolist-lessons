@@ -9,6 +9,7 @@ import { teal, yellow } from '@mui/material/colors';
 import AppWithRedux from './AppWithRedux';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
+import {BrowserRouter} from "react-router-dom";
 
 const theme = createTheme( {
     palette:{
@@ -21,7 +22,9 @@ const theme = createTheme( {
 ReactDOM.render(
 <ThemeProvider theme={theme}>
     <Provider store={store}>
-        <AppWithRedux />
+        <BrowserRouter>
+            <AppWithRedux />
+        </BrowserRouter>
     </Provider>
 
 </ThemeProvider>

@@ -1,15 +1,13 @@
-import { Button, ButtonGroup, Checkbox, IconButton, List, ListItem, Typography } from '@mui/material';
-import React, {ChangeEvent, KeyboardEvent, useCallback, useEffect, useState} from 'react';
-import { AddItemForm } from './addItemForm';
-import { FilterValuesType } from './App';
-import { EditableSpan } from './editableSpan';
-import DeleteIcon from '@mui/icons-material/Delete';
+import {Button, ButtonGroup, IconButton, List, Typography} from '@mui/material';
+import React, {useCallback, useEffect} from 'react';
+import {AddItemForm} from './addItemForm';
+import {EditableSpan} from './editableSpan';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { Task } from './Task';
+import {Task} from './Task';
 import {fetchTasksTC} from "./store/tasks-reduser";
-import {useDispatch} from "react-redux";
 import {RequestStatusType} from "./store/app-reduser";
-
+import { FilterValuesType } from './AppWithRedux';
+import {useAppDispatch} from "./store/store";
 
 
 export type TaskType = {
@@ -23,7 +21,7 @@ type PropsType = {
     title: string
     tasks: Array<TaskType>
     filter: FilterValuesType
-    entityStatus: RequestStatusType
+    entityStatus?: RequestStatusType | undefined
     removeTask: (taskId: string, id: string) => void
     changeFilter: (id: string, value: FilterValuesType) => void
     addTask: (title: string, id: string) => void
@@ -34,7 +32,7 @@ type PropsType = {
 }
 
 export const Todolist = React.memo((props: PropsType) => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     useEffect( ()=> {
         dispatch(fetchTasksTC(props.todolistId));
@@ -82,7 +80,7 @@ export const Todolist = React.memo((props: PropsType) => {
         <div>
             <Typography align={"center"} variant={"h3"}>
                 <EditableSpan title={props.title} changeTitle={changeTodolistTitle} />
-                <IconButton onClick={() => removeTodolist(props.todolistId)} disabled={props.entityStatus = 'loading'}>
+                <IconButton onClick={() => removeTodolist(props.todolistId)} disabled={props.entityStatus === 'loading'}>
                     <DeleteForeverIcon />
                 </IconButton>
             </Typography>
@@ -91,11 +89,11 @@ export const Todolist = React.memo((props: PropsType) => {
             <List>
                 {
                     tasksForTodolist.map(t => {
-                        
+
                         return <Task
                             key={t.id}
                             task={t}
-                            
+
                             removeTask={removeTask }
                             changeTaskStatus={ changeTaskStatus}
                             changeTasksTitle={ changeTasksTitle}

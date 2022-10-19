@@ -1,64 +1,61 @@
-import React, {useCallback, useEffect, useReducer, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import { TaskType, Todolist } from './Todolist';
 import { v1 } from 'uuid';
 import { AddItemForm } from './addItemForm';
 import { AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography } from '@mui/material';
 import CircularProgress from  '@mui/material/CircularProgress/CircularProgress'
-import { Menu } from '@mui/icons-material';
+import {Menu} from '@mui/icons-material';
 import {
     addTodolistAC,
     ChangeTodolistFilterAC,
     changeTodolistTitleAC,  removeTodolistAC,
-    setTodolistsAC, fetchTodolistsTC,
-    todolistsReducer
+     fetchTodolistsTC,
+
 } from './store/todolist-reduser';
 import {
-    addTaskAC,
     addTaskTC,
-    changeTaskStatusAC,
     changeTaskTitleAC,
     removeTasksAC,
-    tasksReducer, updateTaskStarusTC
+     updateTaskStarusTC
 } from './store/tasks-reduser';
-import {AppRootStateType, useAppSelector} from './store/store';
-import { useDispatch, useSelector } from 'react-redux';
-
-import {todolistApi} from "./api/todolist-api";
+import {AppRootStateType, useAppSelector, useAppDispatch} from './store/store';
 import {RequestStatusType} from "./store/app-reduser";
 import {ErrorSnackbar} from "./ErrorSnakbar/ErrorSnakbar";
+import {Login} from "./Login/Login";
+import  { Routes, Route, Navigate } from "react-router-dom"
+
 
 export type FilterValuesType = "all" | "active" | "completed";
-export type todolistType = {
+export type TodolistType = {
     id: string
     title: string
     filter: FilterValuesType
-    //tasks:Array<TaskType>
-
+    entityStatus: RequestStatusType
 }
 
 export type TaskStateType = {
-    [todolistId: string]: Array<TaskType>
+    [key: string]: Array<TaskType>
 }
 
 export const todolistId_1 = v1();
 export const todolistId_2 = v1(); 
 
 function AppWithRedux() {
-
+    const dispatch = useAppDispatch()
     useEffect( ()=> {
-        dispatch(fetchTodolistsTC)
+        dispatch(fetchTodolistsTC())
     }, [])
 
 
-    let todolists = useSelector<AppRootStateType, Array<todolistType>>(state => state.todolists)
+    let todolists = useAppSelector(state => state.todolists)
     console.log(todolists)
-    let tasks = useSelector<AppRootStateType, TaskStateType>(state => state.tasks)
+    let tasks = useAppSelector(state => state.tasks)
 
     //let status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     let status = useAppSelector< RequestStatusType>(state => state.app.status)
 
-    const dispatch = useDispatch()
+
 
 
 
@@ -75,6 +72,7 @@ function AppWithRedux() {
     const changeTaskStatus =useCallback ( (taskId: string, isDone: boolean, todolistId: string) =>{
         dispatch(updateTaskStarusTC(todolistId, taskId, isDone ));
     }, [dispatch])
+
     const changeTasksTitle =useCallback ( (taskId: string, title: string, todolistId: string) =>{
         dispatch(changeTaskTitleAC(taskId, title, todolistId));
     }, [dispatch])
@@ -151,6 +149,15 @@ function AppWithRedux() {
                     <Grid container spacing={6} justifyContent={"center"}>
                         {todolistComponents}
                     </Grid>
+                <Routes>
+                    <Route path="/" element={<AppWithRedux />}/>
+                    <Route path="login" element={<Login />}/>
+                    <Route path="404"  element={<h1 style={{textAlign: "center"}}>Page not found</h1>}/>
+                    <Route path="*"  element={<Navigate to={"404"}/>}/>
+
+
+                </Routes>
+
             </Container>
             <ErrorSnackbar />
         </div>

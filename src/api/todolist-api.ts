@@ -28,10 +28,10 @@ let instanse = axios.create({
 
 export const todolistApi = {
     getTodolists() {
-        return instanse.get<Array<TaskStateType[]>>('todo-lists' )
+        return instanse.get<Array<TodolistApiType>>('todo-lists' )
     },
     createTodolist(title:string) {
-        return instanse.post<BaseResponseType<{item:TodolistType}>>('todo-lists', {title} )
+        return instanse.post<BaseResponseType<{item:TodolistApiType}>>('todo-lists', {title} )
 
     },
     deleteTodolist(todolistId:string) {
@@ -49,15 +49,15 @@ export const todolistApi = {
     deleteTask(todolistId:string, taskId:string){
         return instanse.delete<BaseResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}` )
     },
-    createTask(todolistId:string, taskId:string){
-        return instanse.post<BaseResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}` )
+    createTask(todolistId:string){
+        return instanse.post<BaseResponseType<{item:TaskType }>>(`/todo-lists/${todolistId}/tasks` )
     },
     updateTask(todolistId:string, taskId:string, model:UpdateTaskModelType){
         return instanse.put<BaseResponseType<TaskType>>(`/todo-lists/${todolistId}/tasks/${taskId}`, model )
     }
 }
 
-export type TodolistType = {
+export type TodolistApiType = {
     id: string,
     title: string,
     addedDate: string,
