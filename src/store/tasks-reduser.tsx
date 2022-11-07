@@ -126,7 +126,7 @@ enum ResponseStatuse {
 }
 
 
-export const addTaskTC = (todolistId: string): AppThunkType => dispatch=>{
+export const addTaskTC = (todolistId: string, title:string): AppThunkType => dispatch=>{
     dispatch(setAppStatusAC('loading'))
     todolistApi.createTask(todolistId)
         .then( (res)=> {

@@ -57,6 +57,13 @@ export const todolistApi = {
     }
 }
 
+
+export const authAPI = {
+    login() {
+    }
+}
+
+
 export type TodolistApiType = {
     id: string,
     title: string,
